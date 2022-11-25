@@ -2,6 +2,15 @@ import 'package:flutter/material.dart';
 
 class Styles {
   static Color primaryColor = const Color(0xff5D3FD3);
+  static double padding = 20.0;
+  
+  static double deviceWidth(BuildContext context) {
+    return MediaQuery.of(context).size.width;
+  }
+
+  static double deviceHeight(BuildContext context) {
+    return MediaQuery.of(context).size.height;
+  }
 
   static customElevatedButton(Function onPressed, IconData icon, String label,
       {Color backgroundColor = Colors.blue, Color textColor = Colors.white}) {

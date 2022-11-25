@@ -12,6 +12,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final ImagePicker _picker = ImagePicker();
+  File? image;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,9 +26,6 @@ class _HomeState extends State<Home> {
   }
 
   Widget myBody() {
-    final ImagePicker _picker = ImagePicker();
-    File? image;
-
     Future onCameraPressed() async {
       try {
         final XFile? imagePicked =
@@ -54,41 +54,74 @@ class _HomeState extends State<Home> {
       }
     }
 
+    void clearImage() {
+      setState(() {
+        image = null;
+      });
+    }
+
+    Future<void> sendImage() async {
+      print("Send to API");
+    }
+
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(Styles.padding),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           image == null
               ? AspectRatio(
-                  aspectRatio: 1.5,
+                  aspectRatio: 1.1,
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 30),
-                    color: Colors.grey[200],
+                    color: Colors.grey[300],
                     child: const Icon(Icons.image),
                   ),
                 )
               : AspectRatio(
-                  aspectRatio: 1.5,
+                  aspectRatio: 1.1,
                   child: Image.file(File(image!.path)),
                 ),
-          Styles.customElevatedButton(
-            onCameraPressed,
-            Icons.camera_alt,
-            "Tirar uma foto",
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 15),
-            child: const Text("ou"),
-          ),
-          Styles.customElevatedButton(
-            onFileAttachPressed,
-            Icons.attach_file,
-            "Selecionar um arquivo",
-            backgroundColor: Colors.white,
-            textColor: Colors.blue,
-          )
+          if (image == null)
+            Column(
+              children: [
+                Styles.customElevatedButton(
+                  onCameraPressed,
+                  Icons.camera_alt,
+                  "Tirar uma foto",
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: const Text("ou"),
+                ),
+                Styles.customElevatedButton(
+                  onFileAttachPressed,
+                  Icons.attach_file,
+                  "Selecionar um arquivo",
+                  backgroundColor: Colors.white,
+                  textColor: Colors.blue,
+                )
+              ],
+            ),
+          if (image != null)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Styles.customElevatedButton(
+                  clearImage,
+                  Icons.delete,
+                  "Deletar",
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                ),
+                Styles.customElevatedButton(
+                  sendImage,
+                  Icons.check,
+                  "Enviar",
+                ),
+              ],
+            )
         ],
       ),
     );
