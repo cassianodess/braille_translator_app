@@ -1,4 +1,4 @@
-import 'package:braille_translator/routes/routes.dart';
+import 'package:braille_translator/presenters/routes/routes.dart';
 import 'package:flutter/material.dart';
 
 void main() {
