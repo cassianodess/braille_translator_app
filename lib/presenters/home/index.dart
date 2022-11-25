@@ -15,6 +15,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final ImagePicker _picker = ImagePicker();
   File? image;
+  String text = "";
 
   @override
   Widget build(BuildContext context) {
@@ -28,30 +29,22 @@ class _HomeState extends State<Home> {
 
   Widget myBody() {
     Future<void> onCameraPressed() async {
-      try {
-        final XFile? imagePicked =
-            await _picker.pickImage(source: ImageSource.camera);
-        if (imagePicked != null) {
-          setState(() {
-            image = File(imagePicked.path);
-          });
-        }
-      } catch (e) {
-        print(e);
+      final XFile? imagePicked =
+          await _picker.pickImage(source: ImageSource.camera);
+      if (imagePicked != null) {
+        setState(() {
+          image = File(imagePicked.path);
+        });
       }
     }
 
     Future<void> onFileAttachPressed() async {
-      try {
-        final XFile? imagePicked =
-            await _picker.pickImage(source: ImageSource.gallery);
-        if (imagePicked != null) {
-          setState(() {
-            image = File(imagePicked.path);
-          });
-        }
-      } catch (e) {
-        print(e);
+      final XFile? imagePicked =
+          await _picker.pickImage(source: ImageSource.gallery);
+      if (imagePicked != null) {
+        setState(() {
+          image = File(imagePicked.path);
+        });
       }
     }
 
@@ -62,7 +55,15 @@ class _HomeState extends State<Home> {
     }
 
     Future<void> sendImage() async {
-      await translate(image!);
+      var response = await translate(image!);
+
+      if (response.isRight) {
+        setState(() {
+          text = response.right;
+        });
+      } else {
+        print(response.left);
+      }
     }
 
     return Container(
