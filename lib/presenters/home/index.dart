@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:braille_translator/presenters/print/index.dart';
-import 'package:braille_translator/services/translator.dart';
 import 'package:braille_translator/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_cropper/image_cropper.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -29,6 +29,36 @@ class _HomeState extends State<Home> {
   }
 
   Widget myBody() {
+    Future<void> croppImage() async {
+      File? croppedImage = await ImageCropper().cropImage(
+        sourcePath: image!.path,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        androidUiSettings: const AndroidUiSettings(
+          toolbarTitle: 'Cropper',
+          toolbarColor: Colors.deepOrange,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false,
+        ),
+        iosUiSettings: const IOSUiSettings(
+          title: 'Cropper',
+        ),
+      );
+
+      if (croppedImage != null) {
+        setState(() {
+          image = File(croppedImage.path);
+        });
+      }
+    }
+
     Future<void> onCameraPressed() async {
       final XFile? imagePicked =
           await _picker.pickImage(source: ImageSource.camera);
@@ -36,6 +66,7 @@ class _HomeState extends State<Home> {
         setState(() {
           image = File(imagePicked.path);
         });
+        await croppImage();
       }
     }
 
@@ -46,6 +77,7 @@ class _HomeState extends State<Home> {
         setState(() {
           image = File(imagePicked.path);
         });
+        await croppImage();
       }
     }
 
@@ -114,9 +146,8 @@ class _HomeState extends State<Home> {
                       textColor: Colors.white,
                     ),
                     Styles.customElevatedButton(
-                      () => Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => PrintPage(image: image!))
-                      ),
+                      () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PrintPage(image: image!))),
                       Icons.check,
                       "Enviar",
                     ),
