@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:braille_translator/presenters/print/index.dart';
 import 'package:braille_translator/services/translator.dart';
 import 'package:braille_translator/styles/styles.dart';
 import 'package:flutter/material.dart';
@@ -52,18 +53,6 @@ class _HomeState extends State<Home> {
       setState(() {
         image = null;
       });
-    }
-
-    Future<void> sendImage() async {
-      var response = await translate(image!);
-
-      if (response.isRight) {
-        setState(() {
-          text = response.right;
-        });
-      } else {
-        print(response.left);
-      }
     }
 
     return Container(
@@ -125,7 +114,9 @@ class _HomeState extends State<Home> {
                       textColor: Colors.white,
                     ),
                     Styles.customElevatedButton(
-                      sendImage,
+                      () => Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => PrintPage(image: image!))
+                      ),
                       Icons.check,
                       "Enviar",
                     ),
