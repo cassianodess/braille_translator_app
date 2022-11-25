@@ -83,45 +83,44 @@ class _HomeState extends State<Home> {
                   aspectRatio: 1.1,
                   child: Image.file(File(image!.path)),
                 ),
-          if (image == null)
-            Column(
-              children: [
-                Styles.customElevatedButton(
-                  onCameraPressed,
-                  Icons.camera_alt,
-                  "Tirar uma foto",
-                ),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  child: const Text("ou"),
-                ),
-                Styles.customElevatedButton(
-                  onFileAttachPressed,
-                  Icons.attach_file,
-                  "Selecionar um arquivo",
-                  backgroundColor: Colors.white,
-                  textColor: Colors.blue,
+          image == null
+              ? Column(
+                  children: [
+                    Styles.customElevatedButton(
+                      onCameraPressed,
+                      Icons.camera_alt,
+                      "Tirar uma foto",
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                      child: const Text("ou"),
+                    ),
+                    Styles.customElevatedButton(
+                      onFileAttachPressed,
+                      Icons.attach_file,
+                      "Selecionar um arquivo",
+                      backgroundColor: Colors.white,
+                      textColor: Colors.blue,
+                    )
+                  ],
                 )
-              ],
-            ),
-          if (image != null)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Styles.customElevatedButton(
-                  clearImage,
-                  Icons.delete,
-                  "Deletar",
-                  backgroundColor: Colors.red,
-                  textColor: Colors.white,
-                ),
-                Styles.customElevatedButton(
-                  sendImage,
-                  Icons.check,
-                  "Enviar",
-                ),
-              ],
-            )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Styles.customElevatedButton(
+                      clearImage,
+                      Icons.delete,
+                      "Deletar",
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                    ),
+                    Styles.customElevatedButton(
+                      sendImage,
+                      Icons.check,
+                      "Enviar",
+                    ),
+                  ],
+                )
         ],
       ),
     );
