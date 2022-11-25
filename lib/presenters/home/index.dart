@@ -66,25 +66,20 @@ class _HomeState extends State<Home> {
 
     return Container(
       padding: EdgeInsets.all(Styles.padding),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          image == null
-              ? AspectRatio(
+      child: image == null
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AspectRatio(
                   aspectRatio: 1.1,
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 30),
                     color: Colors.grey[300],
                     child: const Icon(Icons.image),
                   ),
-                )
-              : AspectRatio(
-                  aspectRatio: 1.1,
-                  child: Image.file(File(image!.path)),
                 ),
-          image == null
-              ? Column(
+                Column(
                   children: [
                     Styles.customElevatedButton(
                       onCameraPressed,
@@ -104,7 +99,20 @@ class _HomeState extends State<Home> {
                     )
                   ],
                 )
-              : Row(
+              ],
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(bottom: 30),
+                  child: AspectRatio(
+                    aspectRatio: 1.1,
+                    child: Image.file(File(image!.path)),
+                  ),
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Styles.customElevatedButton(
@@ -121,8 +129,8 @@ class _HomeState extends State<Home> {
                     ),
                   ],
                 )
-        ],
-      ),
+              ],
+            ),
     );
   }
 }
