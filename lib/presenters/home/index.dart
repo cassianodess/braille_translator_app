@@ -20,11 +20,22 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Home"),
+    return WillPopScope(
+      onWillPop: () async {
+        if (image != null) {
+          setState(() {
+            image = null;
+          });
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Home"),
+        ),
+        body: myBody(),
       ),
-      body: myBody(),
     );
   }
 
@@ -41,8 +52,8 @@ class _HomeState extends State<Home> {
           CropAspectRatioPreset.ratio16x9
         ],
         androidUiSettings: const AndroidUiSettings(
-          toolbarTitle: 'Cropper',
-          toolbarColor: Colors.deepOrange,
+          toolbarTitle: 'Ajustes',
+          toolbarColor: Colors.blue,
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false,
@@ -128,11 +139,16 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 30),
-                  child: AspectRatio(
-                    aspectRatio: 1.1,
-                    child: Image.file(File(image!.path)),
+                GestureDetector(
+                  onTap: () async => {await croppImage()},
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 30),
+                    child: AspectRatio(
+                      aspectRatio: 1.1,
+                      child: Image.file(
+                        File(image!.path),
+                      ),
+                    ),
                   ),
                 ),
                 Row(
