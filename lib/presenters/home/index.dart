@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:braille_translator/services/translator.dart';
 import 'package:braille_translator/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,7 +27,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget myBody() {
-    Future onCameraPressed() async {
+    Future<void> onCameraPressed() async {
       try {
         final XFile? imagePicked =
             await _picker.pickImage(source: ImageSource.camera);
@@ -40,7 +41,7 @@ class _HomeState extends State<Home> {
       }
     }
 
-    Future onFileAttachPressed() async {
+    Future<void> onFileAttachPressed() async {
       try {
         final XFile? imagePicked =
             await _picker.pickImage(source: ImageSource.gallery);
@@ -61,7 +62,7 @@ class _HomeState extends State<Home> {
     }
 
     Future<void> sendImage() async {
-      print("Send to API");
+      await translate(image!);
     }
 
     return Container(
