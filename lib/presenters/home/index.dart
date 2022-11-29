@@ -72,6 +72,11 @@ class _HomeState extends State<Home> {
       }
     }
 
+    bool checkImageFormat(String imageName) {
+      return imageName.split(".")[1] == "jpeg" ||
+          imageName.split(".")[1] == "jpg";
+    }
+
     Future<void> onCameraPressed() async {
       final XFile? imagePicked =
           await _picker.pickImage(source: ImageSource.camera);
@@ -87,9 +92,18 @@ class _HomeState extends State<Home> {
       final XFile? imagePicked =
           await _picker.pickImage(source: ImageSource.gallery);
       if (imagePicked != null) {
-        setState(() {
-          image = File(imagePicked.path);
-        });
+        if (checkImageFormat(imagePicked.name)) {
+          setState(() {
+            image = File(imagePicked.path);
+          });
+        } else {
+          showToast(
+            context,
+            "Imagem deve ter formato .JPEG ou .JPG",
+            isError: true,
+          );
+          return;
+        }
         showToast(context, "Clique na imagem para recortar.");
       }
     }
@@ -138,19 +152,27 @@ class _HomeState extends State<Home> {
               ],
             )
           : Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                GestureDetector(
-                  onTap: () async => {await croppImage()},
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 30),
-                    child: AspectRatio(
-                      aspectRatio: 1.1,
-                      child: Image.file(
-                        File(image!.path),
-                      ),
+                Container(
+                  margin: const EdgeInsets.only(bottom: 30),
+                  child: AspectRatio(
+                    aspectRatio: 1.1,
+                    child: Image.file(
+                      File(image!.path),
                     ),
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: IconButton(
+                    onPressed: () async => {await croppImage()},
+                    icon: Icon(Icons.crop_rotate),
+                    color: Colors.white,
                   ),
                 ),
                 Row(
