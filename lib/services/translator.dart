@@ -6,7 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 Future<Either<String, String>> translate(File image) async {
-  String baseURL = "${dotenv.env["BASE_URL"]}/translator";
+  String baseURL = "${dotenv.env["BASE_URL"]}/translate";
 
   var request = http.MultipartRequest("POST", Uri.parse(baseURL));
 

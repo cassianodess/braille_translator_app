@@ -1,6 +1,7 @@
 import 'package:braille_translator/presenters/routes/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -13,6 +14,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: Locale("pt", "BR"),
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale("en", "US"),
+      ],
       title: 'Braille Translator',
       theme: ThemeData(
         primarySwatch: Colors.blue,

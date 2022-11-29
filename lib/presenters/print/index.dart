@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:braille_translator/styles/styles.dart';
@@ -38,7 +39,7 @@ class _PrintPageState extends State<PrintPage> {
 
     if (response.isRight) {
       setState(() {
-        text = response.right;
+        text = utf8.decode(response.right.runes.toList());
       });
     } else {
       print(response.left);
