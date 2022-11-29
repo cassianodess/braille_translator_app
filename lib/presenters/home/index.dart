@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:braille_translator/presenters/print/index.dart';
+import 'package:braille_translator/shared/toast.dart';
 import 'package:braille_translator/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -57,9 +58,10 @@ class _HomeState extends State<Home> {
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false,
+          showCropGrid: true,
         ),
         iosUiSettings: const IOSUiSettings(
-          title: 'Cropper',
+          title: 'Ajustes',
         ),
       );
 
@@ -77,7 +79,7 @@ class _HomeState extends State<Home> {
         setState(() {
           image = File(imagePicked.path);
         });
-        await croppImage();
+        showToast(context, "Clique na imagem para recortar.");
       }
     }
 
@@ -88,7 +90,7 @@ class _HomeState extends State<Home> {
         setState(() {
           image = File(imagePicked.path);
         });
-        await croppImage();
+        showToast(context, "Clique na imagem para recortar.");
       }
     }
 
