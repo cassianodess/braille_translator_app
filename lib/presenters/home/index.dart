@@ -84,7 +84,6 @@ class _HomeState extends State<Home> {
         setState(() {
           image = File(imagePicked.path);
         });
-        showToast(context, "Clique na imagem para recortar.");
       }
     }
 
@@ -104,7 +103,6 @@ class _HomeState extends State<Home> {
           );
           return;
         }
-        showToast(context, "Clique na imagem para recortar.");
       }
     }
 
