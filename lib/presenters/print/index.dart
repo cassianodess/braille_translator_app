@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:braille_translator/shared/toast.dart';
 import 'package:braille_translator/styles/styles.dart';
+import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 
 import 'package:braille_translator/services/translator.dart';
@@ -36,14 +39,19 @@ class _PrintPageState extends State<PrintPage> {
   Future<void> sendImage() async {
     setLoading(true);
     var response = await translate(widget.image);
-
-    if (response.isRight) {
+    response.fold((Left) {
+      Navigator.pop(context);
+      showToast(
+        context,
+        "Não foi possível fazer a leitura.\nTente Novamente!",
+        isError: true,
+      );
+    }, (right) {
       setState(() {
-        text = utf8.decode(response.right.runes.toList());
+        text = response.right;
       });
-    } else {
-      print(response.left);
-    }
+    });
+
     setLoading(false);
   }
 
@@ -75,7 +83,7 @@ class _PrintPageState extends State<PrintPage> {
                   ],
                 ),
               )
-            : Text(text)
+            : SelectableText(text)
       ],
     );
   }
