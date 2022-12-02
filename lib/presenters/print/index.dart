@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:braille_translator/shared/toast.dart';
 import 'package:braille_translator/styles/styles.dart';
-import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 
 import 'package:braille_translator/services/translator.dart';
@@ -66,25 +64,55 @@ class _PrintPageState extends State<PrintPage> {
   }
 
   Widget printBody() {
-    return ListView(
+    return Container(
       padding: EdgeInsets.all(Styles.padding),
-      children: [
-        isLoading
-            ? SizedBox(
-                width: Styles.deviceWidth(context),
-                height: Styles.deviceHeight(context) * .8,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    CircularProgressIndicator(
-                      color: Colors.blue,
-                    )
-                  ],
-                ),
-              )
-            : SelectableText(text)
-      ],
+      height: Styles.deviceHeight(context),
+      child: Column(
+        children: [
+          isLoading
+              ? SizedBox(
+                  width: Styles.deviceWidth(context),
+                  height: Styles.deviceHeight(context) * .8,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: const [
+                      CircularProgressIndicator(
+                        color: Colors.blue,
+                      )
+                    ],
+                  ),
+                )
+              : SizedBox(
+                  height: Styles.deviceHeight(context) * .8,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: Styles.deviceHeight(context) * .7,
+                        child: SingleChildScrollView(
+                          child: SelectableText(
+                            text,
+                            style: TextStyle(
+                              fontSize: 25,
+                            ),
+                            toolbarOptions: ToolbarOptions(
+                              copy: true,
+                              selectAll: true,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Styles.customElevatedButton(
+                        () {},
+                        Icons.picture_as_pdf,
+                        "Download",
+                      ),
+                    ],
+                  ),
+                )
+        ],
+      ),
     );
   }
 }

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale("en", "US"),
+        Locale("pt", "BR"),
       ],
       title: 'Braille Translator',
       theme: ThemeData(
