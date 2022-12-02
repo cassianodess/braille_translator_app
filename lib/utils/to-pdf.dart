@@ -1,19 +1,23 @@
-import 'package:syncfusion_flutter_pdf/pdf.dart';
-
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 import 'save-file.dart';
 
 Future<void> createPDF(String text) async {
-  PdfDocument document = PdfDocument();
-  PdfPage page = document.pages.add();
-  // TODO: REMOVE MOCK TEXT
-  page.graphics.drawString(
-    "text",
-    PdfStandardFont(PdfFontFamily.helvetica, 30),
-    format: PdfStringFormat(),
-  );
+  final pdf = pw.Document();
+  final symbols = await PdfGoogleFonts.notoSansSymbols2Regular();
 
-  List<int> documentBytes = await document.save();
-  document.dispose();
+  pdf.addPage(pw.Page(
+      pageFormat: PdfPageFormat.a4,
+      build: (pw.Context context) {
+        return pw.Text(text,
+            style: pw.TextStyle(
+              fontFallback: [symbols],
+              fontSize: 30,
+            ));
+      }));
+
+  List<int> documentBytes = await pdf.save();
 
   await saveAndLaunchFile(documentBytes, "Braille.pdf");
 }

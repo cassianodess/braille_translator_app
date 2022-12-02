@@ -88,12 +88,15 @@ class _PrintPageState extends State<PrintPage> {
                   height: Styles.deviceHeight(context) * .8,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       SizedBox(
+                        width: Styles.deviceWidth(context),
                         height: Styles.deviceHeight(context) * .7,
                         child: SingleChildScrollView(
                           child: SelectableText(
                             text,
+                            textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: 25,
                             ),

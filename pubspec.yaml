@@ -24,9 +24,10 @@ dependencies:
   flutter_localizations: 
     sdk: flutter
     version: ^0.0.0
-  syncfusion_flutter_pdf: ^20.3.59
   path_provider: ^2.0.11
   open_file: ^3.2.1
+  pdf: ^3.8.4
+  printing: ^5.9.3
 
 dev_dependencies:
   flutter_test:
