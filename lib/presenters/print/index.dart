@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:braille_translator/shared/toast.dart';
 import 'package:braille_translator/styles/styles.dart';
+import 'package:braille_translator/utils/to-pdf.dart';
 import 'package:flutter/material.dart';
 
 import 'package:braille_translator/services/translator.dart';
@@ -104,7 +105,7 @@ class _PrintPageState extends State<PrintPage> {
                         ),
                       ),
                       Styles.customElevatedButton(
-                        () {},
+                        () async => createPDF(text),
                         Icons.picture_as_pdf,
                         "Download",
                       ),
