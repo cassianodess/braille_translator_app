@@ -27,7 +27,7 @@ class Styles {
         ),
       ),
       style: ElevatedButton.styleFrom(
-        primary: backgroundColor,
+        backgroundColor: backgroundColor,
         padding: const EdgeInsets.all(10),
       ),
     );
