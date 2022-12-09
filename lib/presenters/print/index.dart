@@ -90,19 +90,26 @@ class _PrintPageState extends State<PrintPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        width: Styles.deviceWidth(context),
-                        height: Styles.deviceHeight(context) * .7,
-                        child: SingleChildScrollView(
-                          child: SelectableText(
-                            text,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              fontSize: 25,
-                            ),
-                            toolbarOptions: ToolbarOptions(
-                              copy: true,
-                              selectAll: true,
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                          color: Colors.black,
+                        )),
+                        child: SizedBox(
+                          width: Styles.deviceWidth(context),
+                          height: Styles.deviceHeight(context) * .7,
+                          child: SingleChildScrollView(
+                            child: SelectableText(
+                              text,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 25,
+                              ),
+                              toolbarOptions: ToolbarOptions(
+                                copy: true,
+                                selectAll: true,
+                              ),
                             ),
                           ),
                         ),

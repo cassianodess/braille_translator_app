@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Home"),
+          title: image == null ? Text("Home") : Text("Editar"),
         ),
         body: myBody(),
       ),
