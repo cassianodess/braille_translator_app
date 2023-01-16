@@ -6,13 +6,13 @@ import 'package:either_dart/either.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-Future<Either<String, String>> translate(File image) async {
+Future<Either<dynamic, Response>> translate(File image) async {
   String baseURL = "${dotenv.env["BASE_URL"]}/translate";
 
   var request = http.MultipartRequest("POST", Uri.parse(baseURL));
 
   Map<String, String> headers = {
-    "Authorization": "",
+    "Authorization": "Bearer ${dotenv.env["SECRET"]}",
     "Content-Type": "multipart/form-data"
   };
 
@@ -33,7 +33,7 @@ Future<Either<String, String>> translate(File image) async {
   var response = Response.fromJson(responseString);
 
   if (streamedResponse.statusCode == 200) {
-    return Right(utf8.decode(response.data.runes.toList()));
+    return Right(response);
   }
 
   return Left(response.message);

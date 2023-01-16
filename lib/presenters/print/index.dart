@@ -20,6 +20,7 @@ class PrintPage extends StatefulWidget {
 }
 
 class _PrintPageState extends State<PrintPage> {
+  String braille = "";
   String text = "";
   bool isLoading = false;
 
@@ -47,7 +48,8 @@ class _PrintPageState extends State<PrintPage> {
       );
     }, (right) {
       setState(() {
-        text = response.right;
+        braille = right.data.braille;
+        text = right.data.raw_text;
       });
     });
 
@@ -58,7 +60,7 @@ class _PrintPageState extends State<PrintPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Print"),
+        title: const Text("Braille"),
       ),
       body: printBody(),
     );
@@ -101,7 +103,7 @@ class _PrintPageState extends State<PrintPage> {
                           height: Styles.deviceHeight(context) * .7,
                           child: SingleChildScrollView(
                             child: SelectableText(
-                              text,
+                              braille,
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: 25,
@@ -114,11 +116,21 @@ class _PrintPageState extends State<PrintPage> {
                           ),
                         ),
                       ),
-                      Styles.customElevatedButton(
-                        () async => createPDF(text),
-                        Icons.picture_as_pdf,
-                        "Download",
-                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Styles.customElevatedButton(
+                            () async => createPDF(text),
+                            Icons.picture_as_pdf,
+                            "Texto",
+                          ),
+                          Styles.customElevatedButton(
+                            () async => createPDF(braille),
+                            Icons.download,
+                            "Braille",
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 )
