@@ -113,39 +113,29 @@ class _HomeState extends State<Home> {
     }
 
     return Container(
+      width: Styles.deviceWidth(context),
+      height: Styles.deviceHeight(context),
       padding: EdgeInsets.all(Styles.padding),
       child: image == null
           ? Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AspectRatio(
-                  aspectRatio: 1.1,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 30),
-                    color: Colors.grey[300],
-                    child: const Icon(Icons.image),
-                  ),
+                Styles.customElevatedButton(
+                  onCameraPressed,
+                  Icons.camera_alt,
+                  "Tirar uma foto",
                 ),
-                Column(
-                  children: [
-                    Styles.customElevatedButton(
-                      onCameraPressed,
-                      Icons.camera_alt,
-                      "Tirar uma foto",
-                    ),
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: const Text("ou"),
-                    ),
-                    Styles.customElevatedButton(
-                      onFileAttachPressed,
-                      Icons.attach_file,
-                      "Selecionar um arquivo",
-                      backgroundColor: Colors.white,
-                      textColor: Colors.blue,
-                    )
-                  ],
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 40),
+                  child: const Text("ou"),
+                ),
+                Styles.customElevatedButton(
+                  onFileAttachPressed,
+                  Icons.attach_file,
+                  "Selecionar um arquivo",
+                  backgroundColor: Colors.white,
+                  textColor: Colors.blue,
                 )
               ],
             )
