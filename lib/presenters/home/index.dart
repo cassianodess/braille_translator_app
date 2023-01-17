@@ -177,7 +177,7 @@ class _HomeState extends State<Home> {
                       () => Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => PrintPage(image: image!))),
                       Icons.check,
-                      "Enviar",
+                      "Traduzir",
                     ),
                   ],
                 )
