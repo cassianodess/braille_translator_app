@@ -120,12 +120,12 @@ class _PrintPageState extends State<PrintPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Styles.customElevatedButton(
-                            () async => createPDF(text),
+                            () async => createPDF(text, "texto"),
                             Icons.picture_as_pdf,
                             "Texto",
                           ),
                           Styles.customElevatedButton(
-                            () async => createPDF(braille),
+                            () async => createPDF(braille, "braille"),
                             Icons.download,
                             "Braille",
                           ),

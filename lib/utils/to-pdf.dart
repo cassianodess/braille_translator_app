@@ -3,7 +3,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'save-file.dart';
 
-Future<void> createPDF(String text) async {
+Future<void> createPDF(String text, String filename) async {
   final pdf = pw.Document();
   final symbols = await PdfGoogleFonts.notoSansSymbols2Regular();
 
@@ -19,5 +19,5 @@ Future<void> createPDF(String text) async {
 
   List<int> documentBytes = await pdf.save();
 
-  await saveAndLaunchFile(documentBytes, "Braille.pdf");
+  await saveAndLaunchFile(documentBytes, "$filename.pdf");
 }
