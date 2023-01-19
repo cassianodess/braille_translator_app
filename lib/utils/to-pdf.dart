@@ -11,9 +11,11 @@ Future<void> createPDF(String text, String filename) async {
       pageFormat: PdfPageFormat.a4,
       build: (pw.Context context) {
         return pw.Text(text,
+            softWrap: true,
+            textAlign: pw.TextAlign.justify,
             style: pw.TextStyle(
               fontFallback: [symbols],
-              fontSize: 30,
+              fontSize: 12,
             ));
       }));
 

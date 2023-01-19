@@ -158,15 +158,15 @@ class _HomeState extends State<Home> {
                   children: [
                     Styles.customElevatedButton(
                       clearImage,
-                      Icons.delete,
-                      "Deletar",
+                      Icons.cancel_outlined,
+                      "Cancelar",
                       backgroundColor: Colors.red,
                       textColor: Colors.white,
                     ),
                     Styles.customElevatedButton(
                       () => Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => PrintPage(image: croppedImage == null ? image! : croppedImage!))),
-                      Icons.check,
+                      Icons.check_circle_outline,
                       "Traduzir",
                     ),
                   ],

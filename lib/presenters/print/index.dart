@@ -101,6 +101,7 @@ class _PrintPageState extends State<PrintPage> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
                             border: Border.all(
                           color: Colors.black,
                         )),
@@ -112,7 +113,7 @@ class _PrintPageState extends State<PrintPage> {
                               braille,
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                fontSize: 25,
+                                fontSize: 14,
                               ),
                               toolbarOptions: ToolbarOptions(
                                 copy: true,
