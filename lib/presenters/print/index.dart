@@ -47,6 +47,12 @@ class _PrintPageState extends State<PrintPage> {
         isError: true,
       );
     }, (right) {
+
+      if(right.data.braille == "" || right.data.raw_text == "") {
+        Navigator.pop(context);
+        showToast(context, "Erro de leitura, tente novamente!", isError: true);
+      }
+
       setState(() {
         braille = right.data.braille;
         text = right.data.raw_text;

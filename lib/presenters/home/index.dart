@@ -17,6 +17,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final ImagePicker _picker = ImagePicker();
   File? image;
+  File? croppedImage;
   String text = "";
 
   @override
@@ -42,7 +43,7 @@ class _HomeState extends State<Home> {
 
   Widget myBody() {
     Future<void> croppImage() async {
-      File? croppedImage = await ImageCropper().cropImage(
+      File? currentCroppedImage = await ImageCropper().cropImage(
         sourcePath: image!.path,
         aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
         aspectRatioPresets: [
@@ -65,16 +66,11 @@ class _HomeState extends State<Home> {
         ),
       );
 
-      if (croppedImage != null) {
+      if (currentCroppedImage != null) {
         setState(() {
-          image = File(croppedImage.path);
+          croppedImage = File(currentCroppedImage.path);
         });
       }
-    }
-
-    bool checkImageFormat(String imageName) {
-      return imageName.split(".")[1] == "jpeg" ||
-          imageName.split(".")[1] == "jpg";
     }
 
     Future<void> onCameraPressed() async {
@@ -91,24 +87,16 @@ class _HomeState extends State<Home> {
       final XFile? imagePicked =
           await _picker.pickImage(source: ImageSource.gallery);
       if (imagePicked != null) {
-        if (checkImageFormat(imagePicked.name)) {
-          setState(() {
-            image = File(imagePicked.path);
-          });
-        } else {
-          showToast(
-            context,
-            "Imagem deve ter formato .JPEG ou .JPG",
-            isError: true,
-          );
-          return;
-        }
+        setState(() {
+          image = File(imagePicked.path);
+        });
       }
     }
 
     void clearImage() {
       setState(() {
         image = null;
+        croppedImage = null;
       });
     }
 
@@ -148,7 +136,9 @@ class _HomeState extends State<Home> {
                   child: AspectRatio(
                     aspectRatio: 1.1,
                     child: Image.file(
-                      File(image!.path),
+                      File(croppedImage == null
+                          ? image!.path
+                          : croppedImage!.path),
                     ),
                   ),
                 ),
@@ -175,7 +165,7 @@ class _HomeState extends State<Home> {
                     ),
                     Styles.customElevatedButton(
                       () => Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PrintPage(image: image!))),
+                          builder: (context) => PrintPage(image: croppedImage == null ? image! : croppedImage!))),
                       Icons.check,
                       "Traduzir",
                     ),
