@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:braille_translator/presenters/print/index.dart';
-import 'package:braille_translator/shared/toast.dart';
 import 'package:braille_translator/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
