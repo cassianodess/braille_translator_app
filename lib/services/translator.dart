@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:braille_translator/usecases/models/response.dart';
@@ -29,11 +30,11 @@ Future<Either<dynamic, Response>> translate(File image) async {
   var streamedResponse = await request.send();
   var responseBytes = await streamedResponse.stream.toBytes();
   var responseString = String.fromCharCodes(responseBytes);
-  var response = Response.fromJson(responseString);
+  var response = jsonDecode(responseString);
 
-  if (streamedResponse.statusCode == 200) {
-    return Right(response);
+  if (response["status"] == 400) {
+    return Left(response["message"]);
   }
 
-  return Left(response.message);
+  return Right(Response.fromJson(responseString));
 }
