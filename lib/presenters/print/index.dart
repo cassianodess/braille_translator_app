@@ -92,7 +92,7 @@ class _PrintPageState extends State<PrintPage> {
   Future<void> sendImage() async {
     setLoading(true);
     var response = await translate(widget.image);
-    response.fold((Left) {
+    response.fold((left) {
       Navigator.pop(context);
       showToast(
         context,
@@ -100,7 +100,7 @@ class _PrintPageState extends State<PrintPage> {
         isError: true,
       );
     }, (right) {
-      if (right.data?.braille == "" || right.data?.raw_text == "") {
+      if (right.data.braille == "" || right.data.raw_text == "") {
         Navigator.pop(context);
         showToast(context, "Erro de leitura, tente novamente!", isError: true);
       }
@@ -176,10 +176,6 @@ class _PrintPageState extends State<PrintPage> {
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 fontSize: 14,
-                              ),
-                              toolbarOptions: ToolbarOptions(
-                                copy: true,
-                                selectAll: true,
                               ),
                             ),
                           ),

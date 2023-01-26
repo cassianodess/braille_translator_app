@@ -27,14 +27,14 @@ class Data {
 
   factory Data.fromMap(Map<String, dynamic> map) {
     return Data(
-      raw_text: map['raw_text'] ?? '',
-      braille: map['braille'] ?? '',
+      raw_text: map['raw_text'] as String,
+      braille: map['braille'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Data.fromJson(String source) => Data.fromMap(json.decode(source));
+  factory Data.fromJson(String source) => Data.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'Data(raw_text: $raw_text, braille: $braille)';

@@ -12,7 +12,7 @@ class Styles {
     return MediaQuery.of(context).size.height;
   }
 
-  static customElevatedButton(Function onPressed, IconData icon, String label,
+  static Widget customElevatedButton(Function onPressed, IconData icon, String label,
       {Color backgroundColor = Colors.blue, Color textColor = Colors.white}) {
     return ElevatedButton.icon(
       onPressed: () => onPressed(),

@@ -36,15 +36,15 @@ class Response {
 
   factory Response.fromMap(Map<String, dynamic> map) {
     return Response(
-      status: map['status']?.toInt() ?? 0,
-      message: map['message'] ?? '',
-      data: Data.fromMap(map['data']),
+      status: map['status']?.toInt() as int,
+      message: map['message'] as String,
+      data: Data.fromMap(map['data'] as Map<String, dynamic>),
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Response.fromJson(String source) => Response.fromMap(json.decode(source));
+  factory Response.fromJson(String source) => Response.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() => 'Response(status: $status, message: $message, data: $data)';
