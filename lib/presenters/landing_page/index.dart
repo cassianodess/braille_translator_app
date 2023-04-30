@@ -1,11 +1,16 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:carousel_slider/carousel_slider.dart';
-import "package:braille_translator/styles/styles.dart";
-import "../home/index.dart";
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:flutter/material.dart';
+
+import "package:braille_translator/styles/styles.dart";
 
 class LandingPage extends StatefulWidget {
-  const LandingPage({Key? key}) : super(key: key);
+  bool cameFromHome = false;
+  LandingPage({
+    Key? key,
+    required this.cameFromHome,
+  }) : super(key: key);
 
   @override
   State<LandingPage> createState() => _LandingPageState();
@@ -14,11 +19,16 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
 
   int currentIndex = 0;
-
+  
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: () async {
+        if(widget.cameFromHome) {
+          return true;
+        }
+        return false;
+      },
       child: Scaffold(
         body: landingPageBody(context),
       ),
@@ -122,16 +132,14 @@ class _LandingPageState extends State<LandingPage> {
               style: ButtonStyle(
                 alignment: Alignment.center,
               ),
-              onPressed: () => Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => Home()),
-              ),
+              onPressed: () => widget.cameFromHome ? Navigator.of(context).pop() : Navigator.of(context).pushReplacementNamed("/"),
               child: Container(
                 width: 100,
                 height: 30,
                 decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(5)),
                 child: Center(
                   child: Text(
-                    "COMEÇAR",
+                    widget.cameFromHome ? "VOLTAR": "COMEÇAR",
                     style: TextStyle(
                       color: Colors.white,
                     ),

@@ -21,6 +21,47 @@ class Styles {
     );
   }
 
+  static Widget Title(String text) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: padding),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+  static Widget SubTitle(String text, {bool justify = true}) {
+    return Container(
+      // margin: EdgeInsets.only(bottom: padding),
+      child: Center(
+        child: Text(
+          text,
+          style: TextStyle(
+            fontSize: 19,
+          ),
+          textAlign: justify ? TextAlign.justify : TextAlign.start,
+        ),
+      ),
+    );
+  }
+
+  static Widget DevelopersContainer(String name, List<Widget> socialMedias) {
+    return Column(
+      children: [
+        Styles.SubTitle(name, justify: false),
+            SizedBox(height: Styles.padding,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: socialMedias
+            ),
+            SizedBox(height: Styles.padding,),
+      ],
+    );
+  }
+
   static Widget customElevatedButton(Function onPressed, IconData icon, String label,
       {Color backgroundColor = Colors.blue, Color textColor = Colors.white}) {
     return Directionality(

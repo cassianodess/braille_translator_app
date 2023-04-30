@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:braille_translator/presenters/landing_page/index.dart';
 import 'package:braille_translator/presenters/print/index.dart';
 import 'package:braille_translator/shared/gradient.dart';
 import 'package:braille_translator/styles/styles.dart';
@@ -41,7 +42,18 @@ class _HomeState extends State<Home> {
           isCentered: true,
           actions: [
             if(image == null) PopupMenuButton(
-              onSelected: (String route) => Navigator.of(context).pushReplacementNamed(route),
+              onSelected: (String route) {
+                if(route == "/landing-page") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LandingPage(cameFromHome: true)
+                    )
+                  );
+                } else {
+                  Navigator.of(context).pushNamed(route);
+                }
+              },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(
                 value: "/landing-page",
