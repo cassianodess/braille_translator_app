@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 
-AppBar CustomAppBar(BuildContext context, double height, Widget title, {double toolbarHeight = 100.0, List<Widget> actions = const [SizedBox.shrink()], bool canPop= false}) {
+AppBar CustomAppBar(BuildContext context, double height, Widget title, {double toolbarHeight = 100.0, List<Widget> actions = const [SizedBox.shrink()], bool canPop= false, bool isCentered = false}) {
   return AppBar(
+    centerTitle: isCentered,
     leading: canPop ? IconButton(onPressed: () => Navigator.of(context).pop(), icon: Icon(Icons.arrow_back)) : null,
     systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
     backgroundColor: Colors.transparent,

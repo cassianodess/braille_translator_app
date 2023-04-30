@@ -37,7 +37,8 @@ class _HomeState extends State<Home> {
         appBar: CustomAppBar(
           context,
           Styles.deviceHeight(context)*.2,
-          gradientText(image == null ? "BRAILLE\nTRANSLATOR" : "RECORTE"),
+          gradientText(image == null ? "BRAILLE TRANSLATOR" : "AJUSTES"),
+          isCentered: true,
           actions: [if(image == null)IconButton(onPressed: null, icon: Icon(Icons.more_vert, color: Colors.white,))]
         ),
         body: myBody(),
@@ -57,7 +58,7 @@ class _HomeState extends State<Home> {
           CropAspectRatioPreset.ratio16x9
         ],
         androidUiSettings: const AndroidUiSettings(
-          toolbarTitle: 'AJUSTES',
+          toolbarTitle: '',
           toolbarColor: Color(0xFF0D47A1),
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.original,

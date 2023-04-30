@@ -122,8 +122,9 @@ class _PrintPageState extends State<PrintPage> {
       appBar: CustomAppBar(
           context,
           Styles.deviceHeight(context)*.2,
-          gradientText("BRAILLE\nTRANSLATOR"),
+          gradientText("BRAILLE TRANSLATOR"),
           canPop: true,
+          isCentered: true,
         ),
       body: printBody(),
     );
