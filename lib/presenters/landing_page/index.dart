@@ -37,7 +37,7 @@ class _LandingPageState extends State<LandingPage> {
                 color: Colors.blue.shade700
               ),
               child: Text(
-                "Faça Upload de uma image pela galeria ou use a câmera para tirar uma foto.",
+                "Faça Upload de uma imagem pela galeria ou use a câmera para tirar uma foto.",
                 style: Styles.landingPageHeaderStyle(),
                 textAlign: TextAlign.center,
               ),
@@ -68,7 +68,7 @@ class _LandingPageState extends State<LandingPage> {
                 color: Colors.blue.shade700
               ),
               child: Text(
-                "Recorte a image de forma que foque no texto que deseja traduzir.",
+                "Recorte a imagem de forma a destacar o texto que deseja traduzir.",
                 style: Styles.landingPageHeaderStyle(),
                 textAlign: TextAlign.center,
               ),
@@ -96,7 +96,7 @@ class _LandingPageState extends State<LandingPage> {
                 color: Colors.blue.shade700
               ),
               child: Text(
-                "Resultado da tradução em Braille e opção de Download e ouvir texto.",
+                "Resultado da tradução em Braille com opções de Download do arquivo PDF e ouvir texto.",
                 style: Styles.landingPageHeaderStyle(),
                 textAlign: TextAlign.center,
               ),

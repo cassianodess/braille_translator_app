@@ -15,7 +15,7 @@ Future<void> createPDF(String text, String filename) async {
             textAlign: pw.TextAlign.justify,
             style: pw.TextStyle(
               fontFallback: [symbols],
-              fontSize: 12,
+              fontSize: 20,
             ));
       }));
 

@@ -21,10 +21,11 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
-      // supportedLocales: const [
-      //   Locale("pt", "BR"),
-      // ],
+      supportedLocales: const [
+        Locale("pt", "BR"),
+      ],
       title: 'Braille Translator',
       theme: ThemeData(
         primarySwatch: Colors.blue,

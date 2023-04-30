@@ -6,7 +6,7 @@ import 'package:braille_translator/styles/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:flutter/services.dart';
+import '../../shared/custom-appbar.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -34,27 +34,11 @@ class _HomeState extends State<Home> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(
-          systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-          backgroundColor: Colors.transparent,
-          toolbarHeight: 100.0,
-          flexibleSpace:  Container(
-            height: Styles.deviceHeight(context)*.2,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(0),
-                topRight: Radius.circular(0),
-                bottomLeft: Radius.circular(20),
-                bottomRight: Radius.circular(20),
-              ),
-              color: Colors.blue.shade900,
-            ),
-          ),
-          title: gradientText(image == null ? "BRAILLE\nTRANSLATOR" : "Recorte"),
-          automaticallyImplyLeading: false,
-          actions: [
-            if(image == null)IconButton(onPressed: null, icon: Icon(Icons.menu, color: Colors.white,))
-          ],
+        appBar: CustomAppBar(
+          context,
+          Styles.deviceHeight(context)*.2,
+          gradientText(image == null ? "BRAILLE\nTRANSLATOR" : "RECORTE"),
+          actions: [if(image == null)IconButton(onPressed: null, icon: Icon(Icons.more_vert, color: Colors.white,))]
         ),
         body: myBody(),
       ),
@@ -65,7 +49,6 @@ class _HomeState extends State<Home> {
     Future<void> croppImage() async {
       File? currentCroppedImage = await ImageCropper().cropImage(
         sourcePath: image!.path,
-        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
           CropAspectRatioPreset.ratio3x2,
@@ -74,15 +57,15 @@ class _HomeState extends State<Home> {
           CropAspectRatioPreset.ratio16x9
         ],
         androidUiSettings: const AndroidUiSettings(
-          toolbarTitle: 'Ajustes',
-          toolbarColor: Colors.blue,
+          toolbarTitle: 'AJUSTES',
+          toolbarColor: Color(0xFF0D47A1),
           toolbarWidgetColor: Colors.white,
           initAspectRatio: CropAspectRatioPreset.original,
           lockAspectRatio: false,
           showCropGrid: true,
         ),
         iosUiSettings: const IOSUiSettings(
-          title: 'Ajustes',
+          title: 'AJUSTES',
         ),
       );
 
@@ -166,10 +149,6 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 Positioned(
-                  bottom: Styles.deviceHeight(context)*.1,
-                  child: const Text("ou"),
-                ),
-                Positioned(
                   bottom: 0,
                   child: Styles.customElevatedButton(
                     onFileAttachPressed,
@@ -186,6 +165,10 @@ class _HomeState extends State<Home> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
                   margin: const EdgeInsets.only(bottom: 30),
                   child: AspectRatio(
                     aspectRatio: 1.1,

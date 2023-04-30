@@ -8,6 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:text_to_speech/text_to_speech.dart';
 import 'package:braille_translator/services/translator.dart';
+import '../../shared/custom-appbar.dart';
+import 'package:braille_translator/shared/gradient.dart';
 
 class PrintPage extends StatefulWidget {
   final File image;
@@ -117,9 +119,12 @@ class _PrintPageState extends State<PrintPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Braille"),
-      ),
+      appBar: CustomAppBar(
+          context,
+          Styles.deviceHeight(context)*.2,
+          gradientText("BRAILLE\nTRANSLATOR"),
+          canPop: true,
+        ),
       body: printBody(),
     );
   }
@@ -143,7 +148,7 @@ class _PrintPageState extends State<PrintPage> {
           isLoading
               ? SizedBox(
                   width: Styles.deviceWidth(context),
-                  height: Styles.deviceHeight(context) * .8,
+                  height: Styles.deviceHeight(context) * .6,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -155,7 +160,6 @@ class _PrintPageState extends State<PrintPage> {
                   ),
                 )
               : SizedBox(
-                  height: Styles.deviceHeight(context) * .8,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -163,44 +167,50 @@ class _PrintPageState extends State<PrintPage> {
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         decoration: BoxDecoration(
+                          color: Colors.grey.shade600,
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(
                               color: Colors.black,
                             )),
                         child: SizedBox(
                           width: Styles.deviceWidth(context),
-                          height: Styles.deviceHeight(context) * .7,
+                          height: Styles.deviceHeight(context) * .6,
                           child: SingleChildScrollView(
                             child: SelectableText(
                               braille,
                               textAlign: TextAlign.left,
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 24,
+                                color: Colors.white,
+                                overflow: TextOverflow.fade,
                               ),
                             ),
                           ),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Styles.customElevatedButton(
-                            () async => speak(),
-                            Icons.play_circle,
-                            "Ouvir",
-                          ),
-                          if (supportPause)
+                      Container(
+                        margin: EdgeInsets.only(top: Styles.padding*2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
                             Styles.customElevatedButton(
-                              () async => tts.pause(),
-                              Icons.pause_circle,
-                              "Parar",
+                              () async => speak(),
+                              Icons.play_circle,
+                              "Ouvir",
                             ),
-                          Styles.customElevatedButton(
-                            () async => createPDF(braille, "braille"),
-                            Icons.download,
-                            "Download",
-                          ),
-                        ],
+                            if (supportPause)
+                              Styles.customElevatedButton(
+                                () async => tts.pause(),
+                                Icons.pause_circle,
+                                "Parar",
+                              ),
+                            Styles.customElevatedButton(
+                              () async => createPDF(braille, "braille"),
+                              Icons.download,
+                              "PDF",
+                            ),
+                          ],
+                        ),
                       )
                     ],
                   ),
