@@ -21,18 +21,29 @@ class _HomeState extends State<Home> {
   File? image;
   File? croppedImage;
   String text = "";
+  var currentTime = null;
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async {
+      onWillPop: () {
         if (image != null) {
           setState(() {
             image = null;
           });
-          return false;
+          return Future.value(false);
+        } 
+        DateTime now = DateTime.now();
+        if(currentTime == null || now.difference(currentTime as DateTime) > Duration(seconds: 2)) {
+          setState(() {
+            currentTime = now;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Pressione voltar duas vezes seguidas para sair."))
+          );
+          return Future.value(false);
         }
-        return true;
+        return Future.value(true);
       },
       child: Scaffold(
         appBar: CustomAppBar(
