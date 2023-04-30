@@ -25,7 +25,10 @@ class _LandingPageState extends State<LandingPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if(prefs.getBool("alreadyPassHere") != null) {
-      Navigator.of(context).pushReplacementNamed("/");
+      setLoading(true);
+      await Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pushReplacementNamed("/").then((value) => setLoading(false)));
+      setLoading(false);
+      
     }
 
   }
@@ -47,6 +50,7 @@ class _LandingPageState extends State<LandingPage> {
       checkIfAlreadyPassHere();
     } 
     super.initState();
+    setLoading(false);
   }
   
   @override
@@ -191,7 +195,13 @@ class _LandingPageState extends State<LandingPage> {
     return SizedBox(
       width: Styles.deviceWidth(context),
       height: Styles.deviceHeight(context),
-      child: isLoading ?  CircularProgressIndicator(color: Colors.blue) : Stack(
+      child: isLoading ? Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(color: Colors.blue),
+        ],
+      ) : Stack(
         children: [
           CarouselSlider(
             options: CarouselOptions(
