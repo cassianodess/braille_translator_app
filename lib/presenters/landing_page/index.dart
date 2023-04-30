@@ -2,7 +2,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import "package:braille_translator/styles/styles.dart";
 
 class LandingPage extends StatefulWidget {
@@ -19,6 +19,35 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
 
   int currentIndex = 0;
+  bool isLoading = false;
+
+  Future<void> checkIfAlreadyPassHere() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if(prefs.getBool("alreadyPassHere") != null) {
+      Navigator.of(context).pushReplacementNamed("/");
+    }
+
+  }
+
+  void setLoading(bool status) {
+    setState(() {
+      this.isLoading = status;
+    });
+  }
+
+  Future<void> setFirstTimeHere() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool("alreadyPassHere", true);
+  }
+
+  @override
+  void initState() {
+    if(!widget.cameFromHome && mounted) {
+      checkIfAlreadyPassHere();
+    } 
+    super.initState();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -132,7 +161,14 @@ class _LandingPageState extends State<LandingPage> {
               style: ButtonStyle(
                 alignment: Alignment.center,
               ),
-              onPressed: () => widget.cameFromHome ? Navigator.of(context).pop() : Navigator.of(context).pushReplacementNamed("/"),
+              onPressed: () {
+                if(widget.cameFromHome){
+                  Navigator.of(context).pop();
+                } else {
+                  setFirstTimeHere();
+                  Navigator.of(context).pushReplacementNamed("/");
+                }  
+              },
               child: Container(
                 width: 100,
                 height: 30,
@@ -155,7 +191,7 @@ class _LandingPageState extends State<LandingPage> {
     return SizedBox(
       width: Styles.deviceWidth(context),
       height: Styles.deviceHeight(context),
-      child: Stack(
+      child: isLoading ?  CircularProgressIndicator(color: Colors.blue) : Stack(
         children: [
           CarouselSlider(
             options: CarouselOptions(
