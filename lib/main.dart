@@ -22,9 +22,9 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale("pt", "BR"),
-      ],
+      // supportedLocales: const [
+      //   Locale("pt", "BR"),
+      // ],
       title: 'Braille Translator',
       theme: ThemeData(
         primarySwatch: Colors.blue,

@@ -30,13 +30,17 @@ class _LandingPageState extends State<LandingPage> {
             top: Styles.deviceHeight(context) * .1,
             left: 0,
             right: 0,
-            child: Text(
-              "Faça Upload de uma image pela galeria ou use a câmera para tirar uma foto.",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+            child: Container(
+              padding: EdgeInsets.all(Styles.padding),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.blue.shade700
               ),
-              textAlign: TextAlign.center,
+              child: Text(
+                "Faça Upload de uma image pela galeria ou use a câmera para tirar uma foto.",
+                style: Styles.landingPageHeaderStyle(),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           Positioned(
@@ -57,13 +61,17 @@ class _LandingPageState extends State<LandingPage> {
             top: Styles.deviceHeight(context) * .1,
             left: 0,
             right: 0,
-            child: Text(
-              "Recorte a image de forma que foque no texto que deseja traduzir.",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+            child: Container(
+              padding: EdgeInsets.all(Styles.padding),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.blue.shade700
               ),
-              textAlign: TextAlign.center,
+              child: Text(
+                "Recorte a image de forma que foque no texto que deseja traduzir.",
+                style: Styles.landingPageHeaderStyle(),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           Positioned(
@@ -81,13 +89,17 @@ class _LandingPageState extends State<LandingPage> {
             top: Styles.deviceHeight(context) * .1,
             left: 0,
             right: 0,
-            child: Text(
-              "Resultado da tradução em Braille e opção de Download e ouvir texto.",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
+            child: Container(
+              padding: EdgeInsets.all(Styles.padding),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.blue.shade700
               ),
-              textAlign: TextAlign.center,
+              child: Text(
+                "Resultado da tradução em Braille e opção de Download e ouvir texto.",
+                style: Styles.landingPageHeaderStyle(),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           Positioned(
