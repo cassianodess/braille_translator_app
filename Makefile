@@ -2,4 +2,4 @@
 SHELL=/bin/bash
 
 build-apk:
-	flutter build apk
+	flutter clean && flutter build apk

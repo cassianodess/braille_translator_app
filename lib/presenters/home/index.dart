@@ -39,7 +39,20 @@ class _HomeState extends State<Home> {
           Styles.deviceHeight(context)*.2,
           gradientText(image == null ? "BRAILLE TRANSLATOR" : "AJUSTES"),
           isCentered: true,
-          actions: [if(image == null)IconButton(onPressed: null, icon: Icon(Icons.more_vert, color: Colors.white,))]
+          actions: [
+            if(image == null) PopupMenuButton(
+              onSelected: (String route) => Navigator.of(context).pushReplacementNamed(route),
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: "/landing-page",
+                child: Text("Ajuda"),
+              ),
+              const PopupMenuItem<String>(
+                value: "/about",
+                child: Text('Sobre nós'),
+              ),
+            ])
+          ]
         ),
         body: myBody(),
       ),

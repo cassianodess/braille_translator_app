@@ -17,8 +17,11 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: landingPageBody(context),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: landingPageBody(context),
+      ),
     );
   }
 
