@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:braille_translator/presenters/about/index.dart';
 import 'package:braille_translator/presenters/landing_page/index.dart';
 import 'package:braille_translator/presenters/print/index.dart';
 import 'package:braille_translator/shared/gradient.dart';
@@ -57,12 +58,21 @@ class _HomeState extends State<Home> {
                 if(route == "/landing-page") {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => LandingPage(cameFromHome: true)
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) => LandingPage(cameFromHome: true),
+                      transitionDuration: Duration(seconds: 0),
+                      reverseTransitionDuration: Duration(seconds: 0)
                     )
                   );
                 } else {
-                  Navigator.of(context).pushNamed(route);
+                  Navigator.push(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) => AboutPage(),
+                      transitionDuration: Duration(seconds: 0),
+                      reverseTransitionDuration: Duration(seconds: 0)
+                    )
+                  );
                 }
               },
               itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
@@ -238,11 +248,17 @@ class _HomeState extends State<Home> {
                       textColor: Colors.white,
                     ),
                     Styles.customElevatedButton(
-                      () => Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PrintPage(
-                              image: croppedImage == null
-                                  ? image!
-                                  : croppedImage!))),
+                      () => Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (context, animation, secondaryAnimation) => PrintPage(
+                                  image: croppedImage == null
+                                      ? image!
+                                      : croppedImage!),
+                          transitionDuration: Duration(seconds: 0),
+                          reverseTransitionDuration: Duration(seconds: 0)
+                        )
+                      ),
                       Icons.check_circle_outline,
                       "Traduzir",
                     ),

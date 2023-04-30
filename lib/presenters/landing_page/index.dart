@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:braille_translator/presenters/home/index.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,17 @@ class _LandingPageState extends State<LandingPage> {
 
     if(prefs.getBool("alreadyPassHere") != null) {
       setLoading(true);
-      await Future.delayed(Duration(seconds: 2), () => Navigator.of(context).pushReplacementNamed("/").then((value) => setLoading(false)));
+      await Future.delayed(
+        Duration(seconds: 2),
+        () => Navigator.pushReplacement(
+          context,
+          PageRouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) => Home(),
+            transitionDuration: Duration(seconds: 0),
+            reverseTransitionDuration: Duration(seconds: 0)
+          )
+        ).then((value) => setLoading(false))
+      );
       setLoading(false);
       
     }
@@ -170,7 +181,14 @@ class _LandingPageState extends State<LandingPage> {
                   Navigator.of(context).pop();
                 } else {
                   setFirstTimeHere();
-                  Navigator.of(context).pushReplacementNamed("/");
+                  Navigator.pushReplacement(
+                    context,
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) => Home(),
+                      transitionDuration: Duration(seconds: 0),
+                      reverseTransitionDuration: Duration(seconds: 0)
+                    )
+                  );
                 }  
               },
               child: Container(
