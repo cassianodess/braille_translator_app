@@ -24,6 +24,63 @@ class _HomeState extends State<Home> {
   String text = "";
   var currentTime = null;
 
+  void clearImage() {
+    setState(() {
+      image = null;
+      croppedImage = null;
+    });
+  }
+
+  Future<void> croppImage() async {
+      File? currentCroppedImage = await ImageCropper().cropImage(
+        sourcePath: image!.path,
+        aspectRatioPresets: [
+          CropAspectRatioPreset.square,
+          CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.ratio4x3,
+          CropAspectRatioPreset.ratio16x9
+        ],
+        androidUiSettings: const AndroidUiSettings(
+          toolbarTitle: '',
+          toolbarColor: Color(0xFF0D47A1),
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.original,
+          lockAspectRatio: false,
+          showCropGrid: true,
+        ),
+        iosUiSettings: const IOSUiSettings(
+          title: 'AJUSTES',
+        ),
+      );
+
+      if (currentCroppedImage != null) {
+        setState(() {
+          croppedImage = File(currentCroppedImage.path);
+        });
+      }
+    }
+
+    Future<void> onCameraPressed() async {
+      final XFile? imagePicked =
+          await _picker.pickImage(source: ImageSource.camera);
+      if (imagePicked != null) {
+        setState(() {
+          image = File(imagePicked.path);
+        });
+      }
+    }
+
+    Future<void> onFileAttachPressed() async {
+      final XFile? imagePicked =
+          await _picker.pickImage(source: ImageSource.gallery);
+      if (imagePicked != null) {
+        setState(() {
+          image = File(imagePicked.path);
+        });
+      }
+    }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -93,63 +150,6 @@ class _HomeState extends State<Home> {
   }
 
   Widget myBody() {
-    Future<void> croppImage() async {
-      File? currentCroppedImage = await ImageCropper().cropImage(
-        sourcePath: image!.path,
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-          CropAspectRatioPreset.ratio3x2,
-          CropAspectRatioPreset.original,
-          CropAspectRatioPreset.ratio4x3,
-          CropAspectRatioPreset.ratio16x9
-        ],
-        androidUiSettings: const AndroidUiSettings(
-          toolbarTitle: '',
-          toolbarColor: Color(0xFF0D47A1),
-          toolbarWidgetColor: Colors.white,
-          initAspectRatio: CropAspectRatioPreset.original,
-          lockAspectRatio: false,
-          showCropGrid: true,
-        ),
-        iosUiSettings: const IOSUiSettings(
-          title: 'AJUSTES',
-        ),
-      );
-
-      if (currentCroppedImage != null) {
-        setState(() {
-          croppedImage = File(currentCroppedImage.path);
-        });
-      }
-    }
-
-    Future<void> onCameraPressed() async {
-      final XFile? imagePicked =
-          await _picker.pickImage(source: ImageSource.camera);
-      if (imagePicked != null) {
-        setState(() {
-          image = File(imagePicked.path);
-        });
-      }
-    }
-
-    Future<void> onFileAttachPressed() async {
-      final XFile? imagePicked =
-          await _picker.pickImage(source: ImageSource.gallery);
-      if (imagePicked != null) {
-        setState(() {
-          image = File(imagePicked.path);
-        });
-      }
-    }
-
-    void clearImage() {
-      setState(() {
-        image = null;
-        croppedImage = null;
-      });
-    }
-
     return Container(
       width: Styles.deviceWidth(context),
       height: Styles.deviceHeight(context),
