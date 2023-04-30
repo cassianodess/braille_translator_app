@@ -30,6 +30,7 @@ dependencies:
   printing: ^5.9.3
   flutter_native_splash: ^2.2.16
   text_to_speech: ^0.2.3
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,7 @@ flutter:
   assets:
     - .env
     - assets/
+    - assets/images
 
   # fonts:
   #   - family: Schyler

@@ -34,6 +34,7 @@ class _HomeState extends State<Home> {
       child: Scaffold(
         appBar: AppBar(
           title: image == null ? Text("Home") : Text("Editar"),
+          automaticallyImplyLeading: false,
         ),
         body: myBody(),
       ),
@@ -103,6 +104,11 @@ class _HomeState extends State<Home> {
       width: Styles.deviceWidth(context),
       height: Styles.deviceHeight(context),
       padding: EdgeInsets.all(Styles.padding),
+      // decoration: BoxDecoration(
+      //     image: DecorationImage(
+      //   fit: BoxFit.cover,
+      //   image: AssetImage("assets/images/background.png"),
+      // )),
       child: image == null
           ? Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -164,7 +170,10 @@ class _HomeState extends State<Home> {
                     ),
                     Styles.customElevatedButton(
                       () => Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PrintPage(image: croppedImage == null ? image! : croppedImage!))),
+                          builder: (context) => PrintPage(
+                              image: croppedImage == null
+                                  ? image!
+                                  : croppedImage!))),
                       Icons.check_circle_outline,
                       "Traduzir",
                     ),
