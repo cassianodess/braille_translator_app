@@ -6,7 +6,7 @@ import 'package:either_dart/either.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-Future<Either<dynamic, Response>> translate(File image) async {
+Future<Either<dynamic, Response>> translate(File file, String name) async {
   String baseURL = "${dotenv.env["BASE_URL"]}/translate";
 
   var request = http.MultipartRequest("POST", Uri.parse(baseURL));
@@ -19,10 +19,10 @@ Future<Either<dynamic, Response>> translate(File image) async {
   request.headers.addAll(headers);
 
   http.MultipartFile multipartFile = http.MultipartFile(
-    "image",
-    image.readAsBytes().asStream(),
-    image.lengthSync(),
-    filename: "image.jpeg",
+    name.split(".")[1],
+    file.readAsBytes().asStream(),
+    file.lengthSync(),
+    filename: name,
   );
 
   request.files.add(multipartFile);

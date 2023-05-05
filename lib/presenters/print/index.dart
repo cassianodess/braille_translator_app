@@ -12,10 +12,10 @@ import '../../shared/custom-appbar.dart';
 import 'package:braille_translator/shared/gradient.dart';
 
 class PrintPage extends StatefulWidget {
-  final File image;
+  final File file;
   const PrintPage({
     Key? key,
-    required this.image,
+    required this.file,
   }) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class _PrintPageState extends State<PrintPage> {
   String text = "";
   bool isLoading = false;
   TextToSpeech tts = TextToSpeech();
-  final String defaultLanguage = 'en-US';
+  final String defaultLanguage = 'pt-BR';
 
   double volume = 1;
   double rate = 1.0;
@@ -81,7 +81,7 @@ class _PrintPageState extends State<PrintPage> {
 
   @override
   void initState() {
-    sendImage();
+    sendFile();
     super.initState();
   }
 
@@ -91,9 +91,9 @@ class _PrintPageState extends State<PrintPage> {
     });
   }
 
-  Future<void> sendImage() async {
+  Future<void> sendFile() async {
     setLoading(true);
-    var response = await translate(widget.image);
+    var response = await translate(widget.file, widget.file.path.split("/").last);
     response.fold((left) {
       Navigator.pop(context);
       showToast(
@@ -138,6 +138,10 @@ class _PrintPageState extends State<PrintPage> {
     }
     await tts.setPitch(pitch);
     await tts.speak(text);
+  }
+
+  void stop() async {
+    await tts.stop();
   }
 
   Widget printBody() {
@@ -199,12 +203,11 @@ class _PrintPageState extends State<PrintPage> {
                               Icons.play_circle,
                               "Ouvir",
                             ),
-                            if (supportPause)
-                              Styles.customElevatedButton(
-                                () async => tts.pause(),
-                                Icons.pause_circle,
-                                "Parar",
-                              ),
+                            Styles.customElevatedButton(
+                              () async => stop(),
+                              Icons.stop_circle,
+                              "Parar",
+                            ),
                             Styles.customElevatedButton(
                               () async => createPDF(braille, "braille"),
                               Icons.download,

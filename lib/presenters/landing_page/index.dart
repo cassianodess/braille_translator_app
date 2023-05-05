@@ -94,7 +94,7 @@ class _LandingPageState extends State<LandingPage> {
                 color: Colors.blue.shade700
               ),
               child: Text(
-                "Faça Upload de uma imagem pela galeria ou use a câmera para tirar uma foto.",
+                "Faça upload de um arquivo de imagem ou use a câmera para tirar uma foto.\nVocê pode também fazer upload de arquivo .pdf ou .docx",
                 style: Styles.landingPageHeaderStyle(),
                 textAlign: TextAlign.center,
               ),

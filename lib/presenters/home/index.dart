@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import '../../shared/custom-appbar.dart';
+import 'package:file_picker/file_picker.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -19,21 +20,21 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final ImagePicker _picker = ImagePicker();
-  File? image;
+  File? file;
   File? croppedImage;
   String text = "";
   var currentTime = null;
 
   void clearImage() {
     setState(() {
-      image = null;
+      file = null;
       croppedImage = null;
     });
   }
 
   Future<void> croppImage() async {
       File? currentCroppedImage = await ImageCropper().cropImage(
-        sourcePath: image!.path,
+        sourcePath: file!.path,
         aspectRatioPresets: [
           CropAspectRatioPreset.square,
           CropAspectRatioPreset.ratio3x2,
@@ -62,32 +63,38 @@ class _HomeState extends State<Home> {
     }
 
     Future<void> onCameraPressed() async {
-      final XFile? imagePicked =
-          await _picker.pickImage(source: ImageSource.camera);
+      final XFile? imagePicked = await _picker.pickImage(source: ImageSource.camera);
       if (imagePicked != null) {
         setState(() {
-          image = File(imagePicked.path);
+          file = File(imagePicked.path);
         });
       }
     }
 
     Future<void> onFileAttachPressed() async {
-      final XFile? imagePicked =
-          await _picker.pickImage(source: ImageSource.gallery);
-      if (imagePicked != null) {
+      FilePickerResult? filePicked = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'pdf', 'docx'],
+      );
+      if (filePicked != null) {
         setState(() {
-          image = File(imagePicked.path);
+          file = File(filePicked.files.single.path!);
         });
-      }
+      } 
+
+    }
+
+    bool isImage() {
+      return file!.path.split(".").last == "png" || file!.path.split(".").last == "jpg" || file!.path.split(".").last == "jpeg";
     }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () {
-        if (image != null) {
+        if (file != null) {
           setState(() {
-            image = null;
+            file = null;
           });
           return Future.value(false);
         } 
@@ -107,10 +114,10 @@ class _HomeState extends State<Home> {
         appBar: CustomAppBar(
           context,
           Styles.deviceHeight(context)*.2,
-          gradientText(image == null ? "BRAILLE TRANSLATOR" : "AJUSTES"),
+          gradientText(file == null ? "BRAILLE TRANSLATOR" : "AJUSTES"),
           isCentered: true,
           actions: [
-            if(image == null) PopupMenuButton(
+            if(file == null) PopupMenuButton(
               onSelected: (String route) {
                 if(route == "/landing-page") {
                   Navigator.push(
@@ -159,7 +166,7 @@ class _HomeState extends State<Home> {
       //   fit: BoxFit.cover,
       //   image: AssetImage("assets/images/background.png"),
       // )),
-      child: image == null
+      child: file == null
           ? Stack(
             alignment: Alignment.center,
               children: [
@@ -179,7 +186,7 @@ class _HomeState extends State<Home> {
                   right: 0,
                   left: 0,
                   child: Text(
-                    "Tire uma foto ou escolha uma imagem da sua galeria para iniciar com a tradução.",
+                    "Tire uma foto ou escolha um arquivo de imagem, pdf ou docx da sua galeria para iniciar com a tradução.",
                      textAlign: TextAlign.center,
                      style: TextStyle(
                       fontWeight: FontWeight.w400,
@@ -219,14 +226,18 @@ class _HomeState extends State<Home> {
                   margin: const EdgeInsets.only(bottom: 30),
                   child: AspectRatio(
                     aspectRatio: 1.1,
-                    child: Image.file(
+                    child: isImage() ? Image.file(
                       File(croppedImage == null
-                          ? image!.path
+                          ? file!.path
                           : croppedImage!.path),
+                    ) : Icon(
+                       file!.path.split(".").last == "pdf" ? Icons.picture_as_pdf : Icons.edit_document,
+                      size: Styles.deviceHeight(context)*.2,
+                      color: file!.path.split(".").last == "pdf"? Colors.red : Colors.blue,
                     ),
                   ),
                 ),
-                Container(
+                isImage() ? Container(
                   decoration: BoxDecoration(
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(50),
@@ -236,6 +247,8 @@ class _HomeState extends State<Home> {
                     icon: Icon(Icons.crop_rotate),
                     color: Colors.white,
                   ),
+                ) : Container(
+                  child: Styles.SubTitle(file!.path.split("/").last),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -252,8 +265,8 @@ class _HomeState extends State<Home> {
                         context,
                         PageRouteBuilder(
                           pageBuilder: (context, animation, secondaryAnimation) => PrintPage(
-                                  image: croppedImage == null
-                                      ? image!
+                                  file: croppedImage == null
+                                      ? file!
                                       : croppedImage!),
                           transitionDuration: Duration(seconds: 0),
                           reverseTransitionDuration: Duration(seconds: 0)
