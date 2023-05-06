@@ -26,22 +26,20 @@ class _PrintPageState extends State<PrintPage> {
   String braille = "";
   String text = "";
   bool isLoading = false;
+  String errorText = "Erro ao tentar reproduzir texto!";
   TextToSpeech tts = TextToSpeech();
   final String defaultLanguage = 'pt-BR';
-
   double volume = 1;
   double rate = 1.0;
   double pitch = 1.0;
-
   String? language;
   String? languageCode;
   List<String> languages = <String>[];
   List<String> languageCodes = <String>[];
   String? voice;
-
   bool supportPause = defaultTargetPlatform != TargetPlatform.android;
-
   bool supportResume = defaultTargetPlatform != TargetPlatform.android;
+
 
   Future<void> initLanguages() async {
     languageCodes = await tts.getLanguages();
@@ -137,7 +135,11 @@ class _PrintPageState extends State<PrintPage> {
       await tts.setLanguage(languageCode!);
     }
     await tts.setPitch(pitch);
-    await tts.speak(text);
+    var result = await tts.speak(text);
+    if(!result!) {
+      await tts.speak(errorText);
+      showToast(context, errorText, isError: true);
+    }
   }
 
   void stop() async {
