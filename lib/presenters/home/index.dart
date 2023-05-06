@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
     Future<void> onFileAttachPressed() async {
       FilePickerResult? filePicked = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['jpg', 'pdf', 'docx'],
+        allowedExtensions: ['jpg', 'png', 'pdf', 'docx', 'txt'],
       );
       if (filePicked != null) {
         setState(() {
@@ -186,7 +186,7 @@ class _HomeState extends State<Home> {
                   right: 0,
                   left: 0,
                   child: Text(
-                    "Tire uma foto ou escolha um arquivo de imagem, pdf ou docx da sua galeria para iniciar com a tradução.",
+                    "Tire uma foto ou escolha um arquivo de imagem, txt, pdf ou docx da sua galeria para iniciar com a tradução.",
                      textAlign: TextAlign.center,
                      style: TextStyle(
                       fontWeight: FontWeight.w400,
