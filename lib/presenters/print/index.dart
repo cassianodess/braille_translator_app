@@ -91,7 +91,7 @@ class _PrintPageState extends State<PrintPage> {
 
   Future<void> sendFile() async {
     setLoading(true);
-    var response = await translate(widget.file, widget.file.path.split("/").last);
+    var response = await translate(widget.file);
     response.fold((left) {
       Navigator.pop(context);
       showToast(

@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
 import '../../shared/custom-appbar.dart';
 import 'package:file_picker/file_picker.dart';
+import '../../utils/isImage.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -82,10 +83,6 @@ class _HomeState extends State<Home> {
         });
       } 
 
-    }
-
-    bool isImage() {
-      return file!.path.split(".").last == "png" || file!.path.split(".").last == "jpg" || file!.path.split(".").last == "jpeg";
     }
 
   @override
@@ -226,7 +223,7 @@ class _HomeState extends State<Home> {
                   margin: const EdgeInsets.only(bottom: 30),
                   child: AspectRatio(
                     aspectRatio: 1.1,
-                    child: isImage() ? Image.file(
+                    child: isImage(file!) ? Image.file(
                       File(croppedImage == null
                           ? file!.path
                           : croppedImage!.path),
@@ -237,7 +234,7 @@ class _HomeState extends State<Home> {
                     ),
                   ),
                 ),
-                isImage() ? Container(
+                isImage(file!) ? Container(
                   decoration: BoxDecoration(
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(50),
