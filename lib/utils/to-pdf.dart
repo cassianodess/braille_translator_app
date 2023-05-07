@@ -7,17 +7,20 @@ Future<void> createPDF(String text, String filename) async {
   final pdf = pw.Document();
   final symbols = await PdfGoogleFonts.notoSansSymbols2Regular();
 
-  pdf.addPage(pw.Page(
+  pdf.addPage(
+    pw.MultiPage(
       pageFormat: PdfPageFormat.a4,
-      build: (pw.Context context) {
-        return pw.Text(text,
-            softWrap: true,
-            textAlign: pw.TextAlign.justify,
-            style: pw.TextStyle(
-              fontFallback: [symbols],
-              fontSize: 20,
-            ));
-      }));
+      build: (context) => [
+        pw.Paragraph(
+          text: text,
+          textAlign: pw.TextAlign.justify,
+          style: pw.TextStyle(
+            fontFallback: [symbols],
+            fontSize: 20,
+          ))
+      ],
+    )
+  );
 
   List<int> documentBytes = await pdf.save();
 
