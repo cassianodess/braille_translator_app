@@ -1,8 +1,11 @@
+import 'package:braille_translator/shared/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'save-file.dart';
+import 'package:path_provider/path_provider.dart';
+
 
 Future<void> createPDF(String text, String filename, BuildContext context) async {
   final pdf = pw.Document();
@@ -25,5 +28,14 @@ Future<void> createPDF(String text, String filename, BuildContext context) async
 
   List<int> documentBytes = await pdf.save();
 
-  await saveAndLaunchFile(documentBytes, "$filename.pdf").then((value) => Navigator.of(context).pop());
+  await saveAndLaunchFile(documentBytes, "$filename.pdf")
+  .then((value) async {
+    String path = (await getExternalStorageDirectory())!.path;
+
+    Navigator.of(context).pop();
+    showToast(context, "Arquivo salvo em: ${path}/${filename}.pdf", duration: Duration(minutes: 1));
+
+
+  }
+  );
 }

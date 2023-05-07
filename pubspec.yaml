@@ -1,5 +1,5 @@
 name: braille_translator
-description: A project to translate image text to Braille.
+description: APP para traduzir texto pleno ou imagem para braille.
 
 publish_to: 'none' 
 

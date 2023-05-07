@@ -1,4 +1,4 @@
-package com.example.braille_translator
+package com.braille_translator
 
 import io.flutter.embedding.android.FlutterActivity
 
