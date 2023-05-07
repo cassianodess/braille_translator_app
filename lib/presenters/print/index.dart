@@ -39,7 +39,8 @@ class _PrintPageState extends State<PrintPage> {
   String? voice;
   bool supportPause = defaultTargetPlatform != TargetPlatform.android;
   bool supportResume = defaultTargetPlatform != TargetPlatform.android;
-
+  TextEditingController _controller = TextEditingController();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   Future<void> initLanguages() async {
     languageCodes = await tts.getLanguages();
@@ -146,82 +147,140 @@ class _PrintPageState extends State<PrintPage> {
     await tts.stop();
   }
 
+  void clearTextController() {
+     setState(() {
+      _controller.text = "";
+    });
+  }
+
   Widget printBody() {
     return Container(
       padding: EdgeInsets.all(Styles.padding),
       height: Styles.deviceHeight(context),
-      child: Column(
-        children: [
-          isLoading
-              ? SizedBox(
-                  width: Styles.deviceWidth(context),
-                  height: Styles.deviceHeight(context) * .6,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      CircularProgressIndicator(
-                        color: Colors.blue,
-                      )
-                    ],
-                  ),
-                )
-              : SizedBox(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade600,
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(
-                              color: Colors.black,
-                            )),
-                        child: SizedBox(
-                          width: Styles.deviceWidth(context),
-                          height: Styles.deviceHeight(context) * .6,
-                          child: SingleChildScrollView(
-                            child: SelectableText(
-                              braille,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: Colors.white,
-                                overflow: TextOverflow.fade,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            isLoading
+                ? SizedBox(
+                    width: Styles.deviceWidth(context),
+                    height: Styles.deviceHeight(context) * .6,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: const [
+                        CircularProgressIndicator(
+                          color: Colors.blue,
+                        )
+                      ],
+                    ),
+                  )
+                : SizedBox(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade600,
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: Colors.black,
+                              )),
+                          child: SizedBox(
+                            width: Styles.deviceWidth(context),
+                            height: Styles.deviceHeight(context) * .6,
+                            child: SingleChildScrollView(
+                              child: SelectableText(
+                                braille,
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  color: Colors.white,
+                                  overflow: TextOverflow.fade,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(top: Styles.padding*2),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Styles.customElevatedButton(
-                              () async => stop(),
-                              Icons.stop_circle,
-                              "Parar",
-                            ),
-                            Styles.customElevatedButton(
-                              () async => speak(),
-                              Icons.play_circle,
-                              "Ouvir",
-                            ),
-                            Styles.customElevatedButton(
-                              () async => createPDF(braille, "braille"),
-                              Icons.download,
-                              "PDF",
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                )
-        ],
+                        Container(
+                          margin: EdgeInsets.only(top: Styles.padding*2),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Styles.customElevatedButton(
+                                () async => stop(),
+                                Icons.stop_circle,
+                                "Parar",
+                              ),
+                              Styles.customElevatedButton(
+                                () async => speak(),
+                                Icons.play_circle,
+                                "Ouvir",
+                              ),
+                              Styles.customElevatedButton(
+                                () async {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text("Salvar arquivo"),
+                                        content: Form(
+                                          key: _formKey,
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                TextFormField(
+                                                  decoration: InputDecoration(
+                                                    border: OutlineInputBorder(),
+                                                    hintText: "Digite o nome do arquivo",
+                                                  ),
+                                                  controller: _controller,
+                                                  validator: (value) {
+                                                    if(value == null || value.trim().length < 1) {
+                                                      return "Campo não deve estar vazio!";
+                                                    }
+                                                    return null;
+                                                  },
+                                          
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              clearTextController();
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: Text("CANCELAR"),
+                                          ),
+                                          TextButton(
+                                            onPressed: () async {
+                                              if(_formKey.currentState!.validate()) {
+                                                await createPDF(braille, _controller.text.trim(), context);
+                                                clearTextController();
+                                              }
+                                            },
+                                            child: Text("SALVAR"),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                Icons.download,
+                                "Baixar",
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+          ],
+        ),
       ),
     );
   }
