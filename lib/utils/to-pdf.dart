@@ -5,6 +5,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'save-file.dart';
 import 'package:path_provider/path_provider.dart';
+import "dart:math" as math;
+
 
 
 Future<void> createPDF(String text, String filename, BuildContext context, { bool positive = true} ) async {
@@ -16,13 +18,18 @@ Future<void> createPDF(String text, String filename, BuildContext context, { boo
       textDirection: positive ? pw.TextDirection.ltr : pw.TextDirection.rtl,
       pageFormat: PdfPageFormat.a4,
       build: (context) => [
-        pw.Paragraph(
-          text: text,
-          textAlign: pw.TextAlign.justify,
-          style: pw.TextStyle(
-            fontFallback: [symbols],
-            fontSize: 20,
-          ))
+        pw.Transform(
+          transform: Matrix4.rotationY(positive ? 0 : math.pi),
+          adjustLayout: true,
+          child: pw.Paragraph(
+            text: text,
+            textAlign: pw.TextAlign.left,
+            style: pw.TextStyle(
+              fontFallback: [symbols],
+              fontSize: 20,
+            )
+          )
+        ),
       ],
     )
   );
