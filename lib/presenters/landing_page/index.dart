@@ -88,7 +88,7 @@ class _LandingPageState extends State<LandingPage> {
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.all(Styles.padding),
+              padding: EdgeInsets.all(Styles.padding * .5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.blue.shade700
@@ -119,7 +119,7 @@ class _LandingPageState extends State<LandingPage> {
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.all(Styles.padding),
+              padding: EdgeInsets.all(Styles.padding * .5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.blue.shade700
@@ -147,7 +147,7 @@ class _LandingPageState extends State<LandingPage> {
             left: 0,
             right: 0,
             child: Container(
-              padding: EdgeInsets.all(Styles.padding),
+              padding: EdgeInsets.all(Styles.padding * .5),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.blue.shade700
