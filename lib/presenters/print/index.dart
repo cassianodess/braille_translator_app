@@ -224,7 +224,7 @@ class _PrintPageState extends State<PrintPage> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text("Salvar arquivo"),
+                                        title: Text("Salvar arquivo", textAlign: TextAlign.center),
                                         content: Form(
                                           key: _formKey,
                                           child: SingleChildScrollView(
@@ -259,8 +259,51 @@ class _PrintPageState extends State<PrintPage> {
                                           TextButton(
                                             onPressed: () async {
                                               if(_formKey.currentState!.validate()) {
-                                                await createPDF(braille, _controller.text.trim(), context);
-                                                clearTextController();
+                                                showDialog(
+                                                context: context,
+                                                builder: (BuildContext context) {
+                                                  return AlertDialog(
+                                                    title: Text("Direção da reglete", textAlign: TextAlign.center,),
+                                                    content: SingleChildScrollView(
+                                                      child: Column(
+                                                        children: [
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            children: [
+                                                              Styles.Title("Negativa"),
+                                                            ],
+                                                          ),
+                                                          Text("A escrita em Braille é realizada em baixo relevo, sendo necessária a inversão dos pontos. Assim, escreve-se da direita para a esquerda."),
+
+                                                          Row(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            children: [
+                                                              Styles.Title("Positiva"),
+                                                            ],
+                                                          ),
+                                                          Text("A escrita em Braille é realizada em alto relevo, não sendo necessária, portanto, a inversão dos caracteres durante o processo de escrita. Assim, com esse modelo de reglete, escreve-se normalmente, da esquerda para a direita"),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          await createPDF(braille, _controller.text.trim(), context, positive: false).then((value) => Navigator.of(context).pop());
+                                                          clearTextController();
+                                                        },
+                                                        child: Text("Negativa"),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () async {
+                                                          await createPDF(braille, _controller.text.trim(), context, positive: true).then((value) => Navigator.of(context).pop());
+                                                          clearTextController();
+                                                        },
+                                                        child: Text("Positiva"),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              );
                                               }
                                             },
                                             child: Text("SALVAR"),
