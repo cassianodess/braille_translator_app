@@ -15,12 +15,12 @@ Future<void> createPDF(String text, String filename, BuildContext context, { boo
 
   pdf.addPage(
     pw.MultiPage(
-      textDirection: positive ? pw.TextDirection.ltr : pw.TextDirection.rtl,
       pageFormat: PdfPageFormat.a4,
       build: (context) => [
         pw.Transform(
           transform: Matrix4.rotationY(positive ? 0 : math.pi),
           adjustLayout: true,
+          alignment: positive ? pw.Alignment.topLeft : pw.Alignment.topRight,
           child: pw.Paragraph(
             text: text,
             textAlign: pw.TextAlign.left,
