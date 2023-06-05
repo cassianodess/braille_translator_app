@@ -18,8 +18,8 @@ Future<void> createPDF(String text, String filename, BuildContext context, { boo
       pageFormat: PdfPageFormat.a4,
       build: (context) => [
         pw.Transform(
+          origin: positive ? PdfPoint.zero : PdfPoint(-240, 0),
           transform: Matrix4.rotationY(positive ? 0 : math.pi),
-          adjustLayout: true,
           alignment: positive ? pw.Alignment.topLeft : pw.Alignment.topRight,
           child: pw.Paragraph(
             text: text,
